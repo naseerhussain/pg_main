@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
+	<link href="css/smoothState.css" rel="stylesheet">
+
+	<link href="css/jquery.tagsinput.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+
+    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+
+	<script type="text/javascript" src="lib/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="lib/masonry.pkgd.min.js"></script>
+
+	<script type="text/javascript" src="lib/jquery.tagsinput.js"></script>
+
+<title>Paying Guest</title>
+
+<style>
+
+
+</style>
+
+</head>
+<body>
+    <!--Header Code starts here-->
+	<div class="page-header" style="background-color:#333;margin-top:-20px">
+        <br><br>
+        <h1><span style="margin-left:5%;color:white;margin-top:2%;">Paying</span><span style="color:#cc0033;">Guest</span></h1>
+
+        <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+</div>
+
+
+    </div><!--Header div ends here-->
+
+    <!--Container div starts here-->
+    <div class="container">
+
+        <!--Searchboxes code starts here -->
+        <div class="row">
+            <div class="col">
+                <table class="table table-condensed" style="text-align:center;" id="table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Location</th>
+                            <th style="text-align:center">Male/Female</th>
+                            <th style="text-align:center">Sharing Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="tags" type="text" id="searchLocation"></td>
+                            <td><input class="tags" type="text" id="searchGender"></td>
+                            <td><input class="tags" type="text" id="searchSharing"></td>
+                        </tr>
+                    <tbody>
+                </table>
+            </div>
+        </div><!--Search ends here-->
+
+        <!--Masonry container code starts here-->
+        <div class="row" style="margin-top:2%; background-color:#E0E0E0;">
+            <div class = "tiles">
+                <!--<div class="tiles-li col-sm-6 col-md-4 col-lg-3"><div class="well">3<br>product</div></div>-->
+                <div class="masonry-container" id="thumbnails">
+                </div>
+            </div>
+        </div><!--Masonry container code ends here-->
+
+
+    </div><!--Container div closes here-->
+</body>
+</html>
+
