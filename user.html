@@ -32,6 +32,8 @@
 
     <script type="text/javascript" src="js/saveDetails.js"></script>
 
+    <script type="text/javascript" src="js/functions.js"></script>
+
 
 <title>Paying Guest</title>
 
@@ -45,18 +47,22 @@
     $(document).ready(function(){
 
         var pgDetails = getPgDetails();
-        console.log(getLength(pgDetails));
+        //console.log(getLength(pgDetails));
 
         for(var i=1;i<=parseInt(getLength(pgDetails));i++){
-        //if(pgDetails[i].mobile == localStorage.getItem('mobile')){
             var id = i;
             var div='<div class="thumbnail"><h4>'+pgDetails[i].name+'</h4><legend></legend><p>'+pgDetails[i].address+'</p><p>'+pgDetails[i].city+'</p><p>Mobile : '+pgDetails[i].mobile+'</p><legend></legend><input id="'+id+'" class="rating" data-min="0" data-max="5" data-step="0.1" data-size="xs" data-readonly="true" value="4.6"></div>';
 
-             $("#thumbnails").append(div);
-             $('#'+id).rating();
-        //}
-        
+            $("#thumbnails").append(div);
+            $('#'+id).rating();
         }
+
+        $(".thumbnail").click(function(){
+            var clicked = $(this).find("input:first").attr("id");
+            console.log(clicked);
+            clearContainer();
+            showFullDetails(clicked,pgDetails);
+        });
 
          //SignOut function code
         $("#signOut").click(function(){
@@ -70,7 +76,6 @@
         });
     });
 
-    
 </script>
 </head>
 <body>
