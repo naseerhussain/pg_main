@@ -13,6 +13,10 @@
 
     <link rel="stylesheet" type="text/css" href="css/main.css">
 
+    <link rel="stylesheet" href="css/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/>
+
 
     <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
 
@@ -22,32 +26,78 @@
 
 	<script type="text/javascript" src="lib/jquery.tagsinput.js"></script>
 
+    <script src="lib/star-rating.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="js/validate.js"></script>
+
+    <script type="text/javascript" src="js/saveDetails.js"></script>
+
+    <!--<script type="text/javascript" src="lib/ratings.js"></script>-->
+
 <title>Paying Guest</title>
 
-<style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#pgMobile").val(localStorage.getItem('mobile'));
+    var pgDetails = getPgDetails();
+    console.log(getLength(pgDetails));
 
+    for(var i=1;i<=parseInt(getLength(pgDetails));i++){
+        if(pgDetails[i].mobile == localStorage.getItem('mobile')){
+            var div='<div class="thumbnail"><h4>'+pgDetails[i].name+'</h4><legend></legend><p>'+pgDetails[i].address+'</p><p>'+pgDetails[i].city+'</p><p>Mobile : '+pgDetails[i].mobile+'</p><legend></legend><input id="'+i+'" class="rating" data-min="0" data-max="5" data-step="0.1" data-size="xs" data-readonly="true" value="4.6"></div>';
 
-</style>
+             $("#thumbnails").append(div);
+             $('#'+i).rating();
+        }
+        
+    }
+    
+
+    //SignOut function code
+    $("#signOut").click(function(){
+        localStorage.setItem('mobile','');
+        window.location.href = "index.php";
+    });
+
+    //Register PG Code stars Here
+    $("#savePG").click(function(){
+        var name = $("#pgName").val();
+        var address = $("#pgAddress").val();
+        var city = $("#pgCity").val();
+        var mobile = $("#pgMobile").val();
+        var type = $("#accomodationType").val();
+        var pgFor = $("#pgFor").val();
+        var sharing = [], facility = [];
+
+        var valid = validatePG(name,address,city,mobile);
+        $.each($("input[name='sharing']:checked"), function(){            
+            sharing.push($(this).val());
+        });
+
+        $.each($("input[name='facility']:checked"), function(){            
+            facility.push($(this).val());
+        });
+
+        if(valid){
+            savePgDetails(name,address,city,mobile,type,pgFor,sharing,facility);
+            $("#registerPgModal").modal('toggle');
+            window.location.reload();
+        }
+
+    });
+});
+    
+</script>
 
 </head>
-<body>
+<body>  
     <!--Header Code starts here-->
 	<div class="page-header" style="background-color:#333;margin-top:-20px">
         <br><br>
         <h1><span style="margin-left:5%;color:white;margin-top:2%;">Paying</span><span style="color:#cc0033;">Guest</span></h1>
 
-        <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Dropdown
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
+       <button id="signOut" class="btn btn-default btn-xs pull-right" style="margin-right:5%;background-color:#484848;color:white;margin-top:-3%;" data-toggle="modal" data-target="#registerModal">Sign Out</button> 
+       <button id="registerPG" class="btn btn-default btn-xs pull-right" style="margin-right:11%;background-color:#484848;color:white;margin-top:-3%;" data-toggle="modal" data-target="#registerPgModal">Register New PG</button> 
 
 
     </div><!--Header div ends here-->
@@ -78,7 +128,7 @@
         </div><!--Search ends here-->
 
         <!--Masonry container code starts here-->
-        <div class="row" style="margin-top:2%; background-color:#E0E0E0;">
+        <div class="row" style="margin-top:2%; background-color:#A8A8A8;">
             <div class = "tiles">
                 <!--<div class="tiles-li col-sm-6 col-md-4 col-lg-3"><div class="well">3<br>product</div></div>-->
                 <div class="masonry-container" id="thumbnails">
@@ -86,6 +136,85 @@
             </div>
         </div><!--Masonry container code ends here-->
 
+        <!--Register PG pop-up modal-->
+        <div id="registerPgModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+            <!-- Modal content-->
+                <div class="modal-content" style="width:70%;margin-top:5%;">
+                    <div class="modal-header" style="background-color:#333;border-top-left-radius: 4px;border-top-right-radius: 4px">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style="color:white">Register PG</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" placeholder="    Paying Guest Name" id="pgName" style="width:100%"><br>
+                        <br><textarea placeholder="    Full Address of the Paying Guest" id="pgAddress" style="width:100%" rows="3"></textarea><br>
+                        <br><input type="text" placeholder="    City" id="pgCity" style="width:100%"><br>
+                        <br><input type="text" placeholder="    Mobile Number" id="pgMobile" style="width:100%" disabled=""><br>
+                        <br><label>Sharing Options Available : </label>
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="1" name="sharing"> 1</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="2" name="sharing"> 2</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" value="3" name="sharing"> 3</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" value="4" name="sharing"> 4</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" value="5" name="sharing"> 5</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="checkbox" value="more5" name="sharing"> More than 5</label>
+                        </div>
+                        <br><label>Type :   
+                            <select id="accomodationType">
+                                <option value="accomodationOnly">Accomodation Only</option>
+                                <option value="plusFood">Food + Accomodation</option>
+                            </select>
+                        </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>For :
+                            <select id="pfFor">
+                                <option value="gents">Gents</option>    
+                                <option value="ladies">Ladies</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </label>
+                        <label>Facilities Available Here : </label>
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="wifi" name="facility"> WiFI</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="fridge" name="facility"> Fridge</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="washingMachine" name="facility"> Washing Machine</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="parking" name="facility"> Parking Place</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="tv" name="facility"> TV</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" value="lift" name="facility"> Lift</label>
+                        </div>
+                        <button id="savePG" class="btn btn-lg btn-primary join-btn">Register PG</button>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div><!--Register pop-up modal ends here-->
+
+        <!--Error Modal-->
+        <div id="errorAlertModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+            <!-- Modal content-->
+                <div class="modal-content" style="width:70%;margin-top:5%;">
+                    <div class="modal-header" style="background-color:#cc0033;border-top-left-radius: 4px;border-top-right-radius: 4px">
+                        <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                        <h4 class="modal-title" style="color:white">Error</h4>
+
+                    </div>
+                    <div class="modal-body">
+                        <h4 id="alert"></h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="closeButton" class="btn btn-lg btn-primary join-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div><!--Error Modal code ends here-->
 
     </div><!--Container div closes here-->
 </body>
