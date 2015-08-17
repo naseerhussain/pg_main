@@ -156,7 +156,7 @@
                 for(key in details){
                     if(details[key].name == name && details[key].password == pwd ){
                         //localStoarge.setItem("who","user");
-                        window.location.href = "home.html";
+                        window.location.href = "user.html";
                     }
                 }
 
@@ -192,7 +192,7 @@
                <div class="account-wall" style="margin-left:1%;">
                     <form class="form-signin" style="width:95%;">
                         <input type="text" class="small" placeholder="   Name" id="userName" class="form-control"></input><br/>
-                        <input type="text" class="small" placeholder="   Password" id="userPwd" class="form-control"></input><br/>
+                        <input type="password" class="small" placeholder="   Password" id="userPwd" class="form-control"></input><br/>
                         <button id="userSignIn" class="btn btn-lg btn-primary join-btn">Sign In</button>
                     </form>
                 </div>
