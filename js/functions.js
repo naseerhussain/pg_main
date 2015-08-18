@@ -50,6 +50,19 @@
         ratings += '<br><div style="margin-left:2%;"><label style="float:left;">Overall Rating of PG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><div style="width:30%;float:left;margin-top:-2%;"><input class="rating" id="pgRating" data-min="0" data-max="5" data-step="0.1" data-size="xs" data-readonly="true" value="4.3" style="width:50%;"></div></div><br>';
         ratings += '<br></div>';
         //ratings += '</div>';
+        
+        $("#thumbnails").append(div);
+        $("#thumbnails").append(ratings);  
+        
+        $("#food").rating();
+        $("#parking").rating();
+        $("#hygiene").rating();
+        $("#pgRating").rating();
+        
+    }
+
+
+    function rateThisPG(clicked,pgDetails){
         var rateThis = '<div style="width:96%;margin-left:2%;margin-right:1%;margin-top:2%;background-color:#333;color:white;font-size:18px;">';
         rateThis += '<legend style="color:white;"><span style="margin-left:2%;">Rate this PG</span></legend>';
 
@@ -59,17 +72,10 @@
         rateThis += '<br><div style="margin-left:2%;"><label style="float:left;">Overall Rating of PG &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><div style="width:60%;float:left;margin-top:-2%;"><input class="rating" id="RatepgRating" data-min="0" data-max="5" data-step="0.1" data-size="xs"  style="width:50%;"></div></div><br>';
         rateThis += '<button id="rateThisPg" class="btn btn-lg btn-primary join-btn" style="width:52%;margin-left:2%;">Rate This PG</button><br><br></div><br><br>';
 
-        $("#thumbnails").append(div);
-        $("#thumbnails").append(ratings);  
         $("#thumbnails").append(rateThis);
-        $("#food").rating();
-        $("#parking").rating();
-        $("#hygiene").rating();
-        $("#pgRating").rating();
         $("#Ratefood").rating();
         $("#Rateparking").rating();
         $("#Ratehygiene").rating();
         $("#RatepgRating").rating();
+        
     }
-
-    

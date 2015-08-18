@@ -32,6 +32,8 @@
 
     <script type="text/javascript" src="js/saveDetails.js"></script>
 
+    <script type="text/javascript" src="js/functions.js"></script>
+
 
 <title>Paying Guest</title>
 
@@ -56,8 +58,18 @@
              $("#thumbnails").append(div);
              $('#'+id).rating();
         //}
-        
         }
+
+        $(".thumbnail").click(function(){
+            var clicked = $(this).find("input:first").attr("id");
+            console.log(clicked);
+            clearContainer();
+            showFullDetails(clicked,pgDetails);
+            $("#thumbnails").append("</div><br>");
+   //         rateThisPG(clicked,pgDetails);
+
+        });
+
         $("#input-1").rating();
 
         $("#ownerRegister").click(function(){
@@ -310,7 +322,7 @@
             </div>
         </div><!--Error Modal code ends here-->
 
-
+        <br><br><br><br>
     </div><!--Container Div Ends here-->
 </body>
 </html>
